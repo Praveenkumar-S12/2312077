@@ -132,3 +132,16 @@ db.notifications.deleteOne({
   _id: notificationId,
   userId
 });
+
+Stage 3:
+
+the given query is syntatically and logic wise correct, but it needs performance optimisation
+
+to solce this create a composite index on (studentId, isRead, createdAt)
+now it will be efficient, and the advise is efficient
+
+select distinct studentId
+from Notifications
+where notificationType = 'placement'
+and createdat >= now() - interval 7 day;
+
