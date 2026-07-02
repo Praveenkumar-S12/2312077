@@ -148,3 +148,16 @@ and createdat >= now() - interval 7 day;
 Stage 4
 
 I will implement a reddis cache , which stored data in a middle place, and data is fetched from db, only when it is not in cache. it improves the performance
+
+Stage 5
+first save the notifications in db
+and then send notifications through any message que like SQS. this should be used in a async function and store sent status, when failed, continue from failiure point
+
+notify_all(student_ids, message):
+    for student_id in student_ids:
+        save_to_db(student_id, message)
+        queue_email(student_id, message)
+        queue_push_notification(student_id, message)
+
+process_email_queue()
+process_push_notification_queue()
