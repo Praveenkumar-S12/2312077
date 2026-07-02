@@ -68,3 +68,67 @@ Response:
     "success": "true",
     "message": "All Notification marked as read"
 }
+
+Stage 2
+
+Why MongoDB:
+
+I will use a MongoDB for DataBase connection. Because it is having a flexible schema for notification data, easy horizontal scaling without modifiying existing data, and it is also suitable for storing such a large volume of notifications.
+
+Schema:
+
+{
+  "_id": "Id",
+  "userId": "Id",
+  "message": "Amazon recruirtment starts tomorrow.",
+  "type": "placement",
+  "isRead": false,
+  "createdAt": "2026-07-02",
+  "updatedAt": "2026-07-02"
+}
+
+Problems when more data:
+
+slower queries, mainly when geting unread notifications
+
+Solution:
+
+create index on userId and isRead
+use pagination when retriving notifications
+
+Queries:
+
+get all notifications:
+
+db.notifications.find({userId}).sort({createdAt: -1});
+
+mark notification as read:
+
+db.notifications.updateOne(
+  {_id: notificationId, userId},
+  {
+    $set: {
+      isRead: true,
+      updatedAt: new Date()
+    }
+  }
+);
+
+mark notification as read:
+
+db.notifications.updateMany(
+  {userId, isRead: false},
+  {
+    $set: {
+      isRead: true,
+      updatedAt: new Date()
+    }
+  }
+);
+
+delete notification:
+
+db.notifications.deleteOne({
+  _id: notificationId,
+  userId
+});
