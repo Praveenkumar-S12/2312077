@@ -145,3 +145,6 @@ from Notifications
 where notificationType = 'placement'
 and createdat >= now() - interval 7 day;
 
+Stage 4
+
+I will implement a reddis cache , which stored data in a middle place, and data is fetched from db, only when it is not in cache. it improves the performance
